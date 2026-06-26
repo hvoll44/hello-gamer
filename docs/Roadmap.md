@@ -27,9 +27,9 @@
 
 ## Phase 3: First Playable Core
 
-- Add generated terrain.
-- Add controllable player movement.
-- Add third-person camera.
+- Add generated terrain. Initial deterministic terrain slice added.
+- Add controllable player movement. Initial abstract input and movement slice added.
+- Add third-person camera. Initial debug camera follow added.
 - Add collision boundaries.
 - Add simple collectible objects.
 - Add inventory state.

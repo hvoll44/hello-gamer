@@ -1,4 +1,5 @@
 import type { Vector3 } from "../../shared/Vector3";
+import { generateTerrain, type TerrainState } from "../terrain/Terrain";
 
 export type PlayerState = {
   readonly position: Vector3;
@@ -7,6 +8,7 @@ export type PlayerState = {
 
 export type WorldState = {
   readonly seed: string;
+  readonly terrain: TerrainState;
 };
 
 export type GameState = {
@@ -15,13 +17,16 @@ export type GameState = {
 };
 
 export function createInitialGameState(seed = "hello-gamer-dev"): GameState {
+  const terrain = generateTerrain(seed);
+
   return {
     player: {
-      position: { x: 0, y: 0.5, z: 0 },
+      position: terrain.spawn,
       facing: 0,
     },
     world: {
       seed,
+      terrain,
     },
   };
 }

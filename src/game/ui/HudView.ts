@@ -12,6 +12,18 @@ export function renderHud(root: HTMLElement, gameState: GameState): void {
   const seed = document.createElement("p");
   seed.textContent = `Seed: ${gameState.world.seed}`;
 
-  panel.append(title, seed);
+  const position = document.createElement("p");
+  position.textContent = `Position: ${formatCoordinate(
+    gameState.player.position.x,
+  )}, ${formatCoordinate(gameState.player.position.z)}`;
+
+  const controls = document.createElement("p");
+  controls.textContent = "Move: WASD or arrow keys";
+
+  panel.append(title, seed, position, controls);
   root.append(panel);
+}
+
+function formatCoordinate(value: number): string {
+  return value.toFixed(1);
 }

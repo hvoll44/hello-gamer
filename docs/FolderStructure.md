@@ -12,23 +12,33 @@ docs/
 src/
   engine/
     ecs/
+    input/
     renderer/
     timing/
   game/
+    player/
     state/
+    terrain/
     ui/
   shared/
 tests/
   engine/
     ecs/
+    input/
+  game/
+    player/
+    terrain/
 ```
 
 ## Current Code Purpose
 
 - `src/engine/ecs`: Minimal in-repo ECS foundation from `docs/adr/0002-ecs-approach.md`.
+- `src/engine/input`: Browser input adapters and abstract input command mapping.
 - `src/engine/renderer`: Babylon.js rendering adapter. Gameplay should not depend on these objects.
 - `src/engine/timing`: Browser render/update loop helpers.
+- `src/game/player`: Rendering-free player movement and state transition logic.
 - `src/game/state`: Exploration RPG state shapes and initial state factories.
+- `src/game/terrain`: Deterministic generated terrain state and terrain queries.
 - `src/game/ui`: DOM overlay UI projections driven by game/UI state.
 - `src/shared`: Stable cross-layer types and helpers.
 - `tests`: Rendering-free Vitest coverage for deterministic logic.

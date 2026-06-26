@@ -8,10 +8,11 @@ import { Scene } from "@babylonjs/core/scene";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 
 import type { GameState } from "../../game/state/GameState";
+import type { TerrainTileKind } from "../../game/terrain/Terrain";
 
 export type BabylonRenderer = {
   readonly scene: Scene;
-  render(): void;
+  render(gameState: GameState): void;
   resize(): void;
   dispose(): void;
 };
@@ -33,18 +34,29 @@ export function createBabylonRenderer(
     Vector3.Zero(),
     scene,
   );
-  camera.attachControl(canvas, true);
+  camera.lowerBetaLimit = Math.PI / 4;
+  camera.upperBetaLimit = Math.PI / 2.4;
 
   new HemisphericLight("sunlight", new Vector3(0, 1, 0), scene);
 
-  const ground = MeshBuilder.CreateGround(
-    "debug-ground",
-    { width: 10, height: 10 },
-    scene,
-  );
-  const groundMaterial = new StandardMaterial("debug-ground-material", scene);
-  groundMaterial.diffuseColor = new Color3(0.18, 0.42, 0.28);
-  ground.material = groundMaterial;
+  const terrainMaterials = createTerrainMaterials(scene);
+
+  for (const tile of initialState.world.terrain.tiles) {
+    const terrainTile = MeshBuilder.CreateGround(
+      `terrain-${String(tile.x)}-${String(tile.z)}`,
+      {
+        width: initialState.world.terrain.tileSize,
+        height: initialState.world.terrain.tileSize,
+      },
+      scene,
+    );
+    terrainTile.position.set(
+      tile.x * initialState.world.terrain.tileSize,
+      tile.height,
+      tile.z * initialState.world.terrain.tileSize,
+    );
+    terrainTile.material = terrainMaterials[tile.kind];
+  }
 
   const player = MeshBuilder.CreateBox("debug-player", { size: 0.75 }, scene);
   player.position.set(
@@ -58,7 +70,14 @@ export function createBabylonRenderer(
 
   return {
     scene,
-    render: () => {
+    render: (gameState) => {
+      player.position.set(
+        gameState.player.position.x,
+        gameState.player.position.y,
+        gameState.player.position.z,
+      );
+      player.rotation.y = gameState.player.facing;
+      camera.setTarget(player.position);
       scene.render();
     },
     resize: () => {
@@ -67,5 +86,24 @@ export function createBabylonRenderer(
     dispose: () => {
       engine.dispose();
     },
+  };
+}
+
+function createTerrainMaterials(
+  scene: Scene,
+): Record<TerrainTileKind, StandardMaterial> {
+  const grass = new StandardMaterial("terrain-grass-material", scene);
+  grass.diffuseColor = new Color3(0.18, 0.42, 0.28);
+
+  const clearing = new StandardMaterial("terrain-clearing-material", scene);
+  clearing.diffuseColor = new Color3(0.32, 0.56, 0.24);
+
+  const stone = new StandardMaterial("terrain-stone-material", scene);
+  stone.diffuseColor = new Color3(0.36, 0.39, 0.42);
+
+  return {
+    grass,
+    clearing,
+    stone,
   };
 }

@@ -353,7 +353,7 @@ Start future work from the project harness:
 
 # CURRENT DEVELOPMENT SETUP
 
-Phase 2 has initialized the browser game foundation.
+Phase 3 has started with a first thin playable slice on top of the browser game foundation.
 
 Use:
 
@@ -363,4 +363,4 @@ Use:
 - `npm run test` to run Vitest.
 - `npm run lint` to run ESLint.
 
-The current app shell renders a minimal Babylon.js scene through `src/engine/renderer`, keeps gameplay state in `src/game/state`, projects DOM overlay UI from `src/game/ui`, and includes rendering-free ECS tests under `tests`.
+The current app shell renders deterministic generated terrain and a debug player through `src/engine/renderer`, maps keyboard input through `src/engine/input`, keeps gameplay state in `src/game/state`, updates rendering-free player movement in `src/game/player`, projects DOM overlay UI from `src/game/ui`, and includes rendering-free tests under `tests`.
