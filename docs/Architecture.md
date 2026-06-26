@@ -22,7 +22,7 @@ The first implementation should be small, testable, and explicit. Avoid building
 - Procedural generation should be deterministic from explicit seeds where practical.
 - UI should observe or command game state through stable interfaces, not mutate internals directly.
 
-## Candidate Runtime Stack
+## Runtime Stack
 
 - TypeScript for source code.
 - Vite for development and production builds.
@@ -30,11 +30,17 @@ The first implementation should be small, testable, and explicit. Avoid building
 - Vitest for tests.
 - Howler.js for audio.
 
-## Open Decisions
+See `docs/adr/0001-browser-3d-rpg-stack.md`.
 
-- Whether to adopt an external ECS library or build a minimal ECS tailored to this project.
-- Whether physics should start with Babylon collision primitives, a lightweight custom layer, or a dedicated physics library.
+## Accepted Phase 1 Decisions
+
+- ECS starts as a minimal in-repo TypeScript ECS with numeric entity IDs, data-only components, explicit component stores, and pure systems. See `docs/adr/0002-ecs-approach.md`.
+- Physics and collision start as a lightweight kinematic collision layer for static colliders, terrain queries, player movement, and triggers. Babylon Physics V2 with Havok remains a future adapter option. See `docs/adr/0003-physics-collision-strategy.md`.
+- UI starts as DOM/CSS overlays driven by UI view state and typed commands. Babylon GUI and UI frameworks remain future options behind the same boundary. See `docs/adr/0004-ui-strategy.md`.
+- Save data starts as JSON-serializable gameplay state with a top-level schema version, migration path, and storage adapter. The first backend is `localStorage`, with IndexedDB reserved for larger or more complex saves. See `docs/adr/0005-save-data-versioning.md`.
+
+## Remaining Open Decisions
+
 - How terrain generation should represent chunks, persistence, and world metadata.
-- Which UI approach to use for menus and overlays.
 
 Each decision should be recorded in `docs/DecisionLog.md` and promoted to an ADR when it meaningfully affects future contributors.

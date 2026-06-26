@@ -1,6 +1,6 @@
 # ADR 0001: Browser 3D RPG Stack
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-06-25
 
 ## Context
@@ -9,7 +9,7 @@ The project targets a desktop browser 3D exploration RPG that can eventually dep
 
 ## Decision
 
-Use the proposed stack as the initial default:
+Use the proposed stack as the accepted baseline:
 
 - TypeScript for maintainable application code.
 - Vite for development server and production builds.
@@ -17,11 +17,11 @@ Use the proposed stack as the initial default:
 - Vitest for tests.
 - Howler.js for audio.
 
-Do not adopt an ECS, physics, terrain, or UI library until the architecture phase compares options and documents the tradeoffs.
+ECS, physics, terrain, UI, and save data choices are separate Phase 1 decisions. They should be documented in focused ADRs before application scaffolding begins.
 
 ## Consequences
 
 - The project starts with well-supported browser tooling.
 - Rendering and audio have mature libraries from day one.
-- ECS, physics, terrain, and UI choices remain deliberate decisions instead of accidental dependencies.
+- ECS, physics, terrain, UI, and save choices remain deliberate decisions instead of accidental dependencies.
 - GitHub Pages deployment should remain straightforward if routing and asset paths are handled carefully.

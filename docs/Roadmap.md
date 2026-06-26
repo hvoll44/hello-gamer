@@ -9,11 +9,13 @@
 
 ## Phase 1: Architecture Approval
 
-- Decide ECS approach.
-- Decide initial physics and collision approach.
-- Decide UI strategy.
-- Decide save data shape and versioning strategy.
-- Create ADRs for decisions that affect long-term structure.
+- Status: Complete.
+- Accepted the baseline TypeScript, Vite, Babylon.js, Vitest, and Howler.js stack.
+- Decided ECS approach.
+- Decided initial physics and collision approach.
+- Decided UI strategy.
+- Decided save data shape and versioning strategy.
+- Created ADRs for decisions that affect long-term structure.
 
 ## Phase 2: Technical Foundation
 
