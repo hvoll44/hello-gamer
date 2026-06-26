@@ -21,3 +21,11 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 - Decision: Establish docs and Cursor rules before creating application code.
 - Consequences: Feature work should start with a plan and receive approval before code changes. The initial app scaffold waits until the architecture is approved.
 - Related ADR: `docs/adr/0001-browser-3d-rpg-stack.md`
+
+## 2026-06-25: Risk-Based Agent Autonomy
+
+- Status: Accepted
+- Context: The project owner wants AI agents to have broad autonomy, including the ability to make commits, while preserving long-term architectural quality.
+- Decision: Use `docs/AgentOperatingModel.md` to define default autonomy, approval boundaries, planning expectations, and commit expectations.
+- Consequences: Agents may proceed independently on scoped, low-risk work and commit coherent completed units. High-risk architectural, scope, dependency, release, remote, or destructive actions still require explicit approval.
+- Related ADR: None

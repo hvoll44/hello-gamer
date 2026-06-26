@@ -11,5 +11,6 @@ alwaysApply: false
 - Use `docs/Architecture.md` for system boundaries and open architecture questions.
 - Use `docs/Roadmap.md` for milestone sequencing.
 - Use `docs/DecisionLog.md` for lightweight decisions.
+- Use `docs/AgentOperatingModel.md` for AI autonomy, approvals, and commit expectations.
 - Use `docs/adr` for architectural decisions that are important or costly to reverse.
 - When implementation changes architecture, update docs in the same feature branch.

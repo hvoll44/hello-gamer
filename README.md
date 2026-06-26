@@ -345,4 +345,5 @@ Start future work from the project harness:
 - `docs/DecisionLog.md` tracks lightweight decisions and links to ADRs.
 - `docs/FolderStructure.md` defines where future code and assets should live.
 - `docs/CodingStandards.md` defines coding, testing, and documentation expectations.
+- `docs/AgentOperatingModel.md` defines AI autonomy, approval boundaries, and commit expectations.
 - `.cursor/rules` contains persistent Cursor guidance for planning, architecture, and documentation.

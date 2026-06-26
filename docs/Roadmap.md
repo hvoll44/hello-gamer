@@ -3,6 +3,7 @@
 ## Phase 0: Development Harness
 
 - Establish project vision, architecture notes, coding standards, decision tracking, and Cursor rules.
+- Establish the AI agent operating model for autonomy, approvals, and commits.
 - Keep implementation blocked until the initial architecture is reviewed and approved.
 - Identify architectural risks and library choices before scaffolding the app.
 
