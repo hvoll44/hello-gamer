@@ -1,0 +1,15 @@
+---
+description: TypeScript architecture rules for engine and game code
+globs: src/**/*.ts,tests/**/*.ts
+alwaysApply: false
+---
+
+# TypeScript Game Architecture
+
+- Separate `src/engine` reusable systems from `src/game` exploration RPG behavior.
+- Keep gameplay logic independent of Babylon.js objects, browser events, Howler instances, and storage APIs.
+- Gameplay systems should consume abstract input commands or state, not keyboard or pointer events directly.
+- Save/load code should serialize gameplay state, not renderer, audio, or transient runtime objects.
+- Procedural generation should accept explicit seeds and configuration and be testable without rendering.
+- Prefer data components plus systems for ECS-style behavior; avoid deep inheritance trees.
+- Add Vitest coverage for deterministic logic and regressions.

@@ -332,3 +332,17 @@ Break development into milestones.
 Only after the architecture has been approved should implementation begin.
 
 Treat this repository as a long-term open-source project that other developers should be able to understand and contribute to.
+
+---
+
+# DEVELOPMENT HARNESS
+
+Start future work from the project harness:
+
+- `docs/GameVision.md` defines the game intent, MVP experience, and non-goals.
+- `docs/Architecture.md` defines the proposed system boundaries and open architecture decisions.
+- `docs/Roadmap.md` breaks work into approval, foundation, playable, depth, and release phases.
+- `docs/DecisionLog.md` tracks lightweight decisions and links to ADRs.
+- `docs/FolderStructure.md` defines where future code and assets should live.
+- `docs/CodingStandards.md` defines coding, testing, and documentation expectations.
+- `.cursor/rules` contains persistent Cursor guidance for planning, architecture, and documentation.

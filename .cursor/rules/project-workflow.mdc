@@ -1,0 +1,14 @@
+---
+description: Planning-first workflow for this browser game project
+alwaysApply: true
+---
+
+# Project Workflow
+
+- Treat this as a long-term open-source browser game foundation, not a throwaway prototype.
+- Before implementing a feature, understand the existing architecture, identify affected systems, explain the plan, and wait for approval.
+- Challenge requests that would create tight coupling, god classes, hidden global state, or renderer-owned gameplay.
+- Keep combat out of the MVP unless the project vision changes explicitly.
+- Prefer TypeScript, Vite, Babylon.js, Vitest, and Howler.js unless an approved ADR changes the stack.
+- Update tests and documentation with substantive feature work.
+- Record major architectural decisions in `docs/DecisionLog.md`; use ADRs for decisions that matter to contributors.
