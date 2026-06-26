@@ -353,7 +353,7 @@ Start future work from the project harness:
 
 # CURRENT DEVELOPMENT SETUP
 
-Phase 3 has started with a first thin playable slice on top of the browser game foundation.
+Phase 3 has an initial first playable slice on top of the browser game foundation.
 
 Use:
 
@@ -363,4 +363,4 @@ Use:
 - `npm run test` to run Vitest.
 - `npm run lint` to run ESLint.
 
-The current app shell renders deterministic generated terrain, a debug player, and terrain-edge boundary visuals through `src/engine/renderer`, maps keyboard input through `src/engine/input`, keeps gameplay state in `src/game/state`, updates rendering-free bounded player movement in `src/game/player`, projects DOM overlay UI from `src/game/ui`, and includes rendering-free tests under `tests`.
+The current app shell renders deterministic generated terrain, collectibles, a debug player, and terrain-edge boundary visuals through `src/engine/renderer`, maps keyboard gameplay and persistence input through `src/engine/input`, keeps gameplay state in `src/game/state`, updates rendering-free bounded player movement in `src/game/player`, applies collectible interactions in `src/game/interaction`, saves gameplay-only progress through `src/game/save` and `src/engine/storage`, projects DOM overlay UI from `src/game/ui`, and includes rendering-free tests under `tests`.

@@ -17,10 +17,16 @@ export function renderHud(root: HTMLElement, gameState: GameState): void {
     gameState.player.position.x,
   )}, ${formatCoordinate(gameState.player.position.z)}`;
 
-  const controls = document.createElement("p");
-  controls.textContent = "Move: WASD or arrow keys";
+  const inventory = document.createElement("p");
+  inventory.textContent = `Ancient coins: ${String(
+    gameState.inventory.items.ancientCoin,
+  )}`;
 
-  panel.append(title, seed, position, controls);
+  const controls = document.createElement("p");
+  controls.textContent =
+    "Move: WASD or arrows. Interact: E/Space. Save: K. Load: L.";
+
+  panel.append(title, seed, position, inventory, controls);
   root.append(panel);
 }
 

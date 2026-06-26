@@ -31,10 +31,10 @@
 - Add controllable player movement. Initial abstract input and movement slice added.
 - Add third-person camera. Initial debug camera follow added.
 - Add collision boundaries. Initial terrain-edge movement bounds added.
-- Add simple collectible objects.
-- Add inventory state.
-- Add interaction commands.
-- Add save/load support.
+- Add simple collectible objects. Initial deterministic collectible slice added.
+- Add inventory state. Initial collectible inventory count added.
+- Add interaction commands. Initial abstract collect interaction added.
+- Add save/load support. Initial versioned local save slot added.
 
 ## Phase 4: Exploration Depth
 

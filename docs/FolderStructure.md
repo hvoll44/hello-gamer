@@ -14,9 +14,14 @@ src/
     ecs/
     input/
     renderer/
+    storage/
     timing/
   game/
+    collectibles/
+    interaction/
+    inventory/
     player/
+    save/
     state/
     terrain/
     ui/
@@ -26,7 +31,10 @@ tests/
     ecs/
     input/
   game/
+    collectibles/
+    interaction/
     player/
+    save/
     terrain/
 ```
 
@@ -35,8 +43,13 @@ tests/
 - `src/engine/ecs`: Minimal in-repo ECS foundation from `docs/adr/0002-ecs-approach.md`.
 - `src/engine/input`: Browser input adapters and abstract input command mapping.
 - `src/engine/renderer`: Babylon.js rendering adapter. Gameplay should not depend on these objects.
+- `src/engine/storage`: Browser storage adapters for serialized gameplay data.
 - `src/engine/timing`: Browser render/update loop helpers.
+- `src/game/collectibles`: Deterministic collectible placement and collectible state shapes.
+- `src/game/interaction`: Rendering-free interaction systems that consume abstract commands.
+- `src/game/inventory`: Gameplay-owned inventory state and item count updates.
 - `src/game/player`: Rendering-free player movement and state transition logic.
+- `src/game/save`: Versioned gameplay save data serialization, validation, and restore logic.
 - `src/game/state`: Exploration RPG state shapes and initial state factories.
 - `src/game/terrain`: Deterministic generated terrain state and terrain queries.
 - `src/game/ui`: DOM overlay UI projections driven by game/UI state.

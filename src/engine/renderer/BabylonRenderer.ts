@@ -3,6 +3,7 @@ import { Engine } from "@babylonjs/core/Engines/engine";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
 import { Color3 } from "@babylonjs/core/Maths/math.color";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
+import type { Mesh } from "@babylonjs/core/Meshes/mesh";
 import { MeshBuilder } from "@babylonjs/core/Meshes/meshBuilder";
 import { Scene } from "@babylonjs/core/scene";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
@@ -59,6 +60,7 @@ export function createBabylonRenderer(
   }
 
   createBoundaryVisuals(initialState, scene);
+  const collectibleMeshes = createCollectibleVisuals(initialState, scene);
 
   const player = MeshBuilder.CreateBox("debug-player", { size: 0.75 }, scene);
   player.position.set(
@@ -80,6 +82,13 @@ export function createBabylonRenderer(
       );
       player.rotation.y = gameState.player.facing;
       camera.setTarget(player.position);
+
+      for (const collectible of gameState.world.collectibles) {
+        collectibleMeshes
+          .get(collectible.id)
+          ?.setEnabled(!collectible.collected);
+      }
+
       scene.render();
     },
     resize: () => {
@@ -89,6 +98,35 @@ export function createBabylonRenderer(
       engine.dispose();
     },
   };
+}
+
+function createCollectibleVisuals(
+  gameState: GameState,
+  scene: Scene,
+): ReadonlyMap<string, Mesh> {
+  const material = new StandardMaterial("collectible-material", scene);
+  const meshes = new Map<string, Mesh>();
+
+  material.diffuseColor = new Color3(0.95, 0.82, 0.25);
+
+  for (const collectible of gameState.world.collectibles) {
+    const mesh = MeshBuilder.CreateSphere(
+      `collectible-${collectible.id}`,
+      { diameter: 0.35, segments: 12 },
+      scene,
+    );
+
+    mesh.position.set(
+      collectible.position.x,
+      collectible.position.y,
+      collectible.position.z,
+    );
+    mesh.material = material;
+    mesh.setEnabled(!collectible.collected);
+    meshes.set(collectible.id, mesh);
+  }
+
+  return meshes;
 }
 
 function createBoundaryVisuals(gameState: GameState, scene: Scene): void {
