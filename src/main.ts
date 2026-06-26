@@ -8,6 +8,7 @@ import { createBabylonRenderer } from "./engine/renderer/BabylonRenderer";
 import { createLocalStorageSaveStore } from "./engine/storage/LocalStorageSaveStore";
 import { createGameLoop } from "./engine/timing/GameLoop";
 import { applyCollectionInteraction } from "./game/interaction/CollectionInteraction";
+import { updateLandmarkDiscovery } from "./game/landmarks/Landmarks";
 import { updatePlayerMovement } from "./game/player/PlayerMovement";
 import {
   createSaveData,
@@ -50,6 +51,7 @@ const loop = createGameLoop((deltaSeconds) => {
     player,
   };
   gameState = applyCollectionInteraction(gameState, interactionCommand);
+  gameState = applyDiscovery(gameState);
   gameState = applyPersistenceCommand(gameState, persistenceCommand);
 
   renderer.render(gameState);
@@ -92,4 +94,23 @@ function applyPersistenceCommand(
   return saveData === undefined
     ? currentGameState
     : restoreGameState(saveData);
+}
+
+function applyDiscovery(currentGameState: typeof gameState): typeof gameState {
+  const landmarks = updateLandmarkDiscovery(
+    currentGameState.world.landmarks,
+    currentGameState.player.position,
+  );
+
+  if (landmarks === currentGameState.world.landmarks) {
+    return currentGameState;
+  }
+
+  return {
+    ...currentGameState,
+    world: {
+      ...currentGameState.world,
+      landmarks,
+    },
+  };
 }

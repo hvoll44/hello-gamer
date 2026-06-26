@@ -39,7 +39,7 @@
 ## Phase 4: Exploration Depth
 
 - Add pluggable world generators.
-- Add landmarks and discovery hooks.
+- Add landmarks and discovery hooks. Initial deterministic landmark discovery slice added.
 - Add simple puzzles or environmental gates.
 - Add asset management and loading conventions.
 - Add basic audio manager for ambience, music, UI sounds, and effects.

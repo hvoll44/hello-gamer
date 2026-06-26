@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { applyCollectionInteraction } from "../../../src/game/interaction/CollectionInteraction";
+import { updateLandmarkDiscovery } from "../../../src/game/landmarks/Landmarks";
 import {
   createSaveData,
   CURRENT_SAVE_SCHEMA_VERSION,
@@ -59,5 +60,29 @@ describe("SaveData", () => {
       )?.collected,
     ).toBe(true);
     expect(restoredState.world.terrain).toEqual(initialState.world.terrain);
+  });
+
+  it("restores discovered landmarks onto deterministic world state", () => {
+    const initialState = createInitialGameState("discovered-save-seed");
+    const landmark = initialState.world.landmarks[0];
+    const discoveredState = {
+      ...initialState,
+      world: {
+        ...initialState.world,
+        landmarks: updateLandmarkDiscovery(
+          initialState.world.landmarks,
+          landmark.position,
+        ),
+      },
+    };
+
+    const saveData = createSaveData(discoveredState);
+    const restoredState = restoreGameState(saveData);
+    const restoredDiscoveredIds = restoredState.world.landmarks
+      .filter((candidate) => candidate.discovered)
+      .map((candidate) => candidate.id);
+
+    expect(saveData.world.discoveredLocationIds).toContain(landmark.id);
+    expect(restoredDiscoveredIds).toEqual(saveData.world.discoveredLocationIds);
   });
 });

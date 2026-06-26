@@ -22,11 +22,16 @@ export function renderHud(root: HTMLElement, gameState: GameState): void {
     gameState.inventory.items.ancientCoin,
   )}`;
 
+  const discoveries = document.createElement("p");
+  discoveries.textContent = `Landmarks discovered: ${String(
+    gameState.world.landmarks.filter((landmark) => landmark.discovered).length,
+  )}/${String(gameState.world.landmarks.length)}`;
+
   const controls = document.createElement("p");
   controls.textContent =
     "Move: WASD or arrows. Interact: E/Space. Save: K. Load: L.";
 
-  panel.append(title, seed, position, inventory, controls);
+  panel.append(title, seed, position, inventory, discoveries, controls);
   root.append(panel);
 }
 

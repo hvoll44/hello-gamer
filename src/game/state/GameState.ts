@@ -4,6 +4,7 @@ import {
   type CollectibleState,
 } from "../collectibles/Collectibles";
 import { createEmptyInventory, type InventoryState } from "../inventory/Inventory";
+import { generateLandmarks, type LandmarkState } from "../landmarks/Landmarks";
 import { generateTerrain, type TerrainState } from "../terrain/Terrain";
 
 export type PlayerState = {
@@ -15,6 +16,7 @@ export type WorldState = {
   readonly seed: string;
   readonly terrain: TerrainState;
   readonly collectibles: readonly CollectibleState[];
+  readonly landmarks: readonly LandmarkState[];
 };
 
 export type GameState = {
@@ -26,6 +28,7 @@ export type GameState = {
 export function createInitialGameState(seed = "hello-gamer-dev"): GameState {
   const terrain = generateTerrain(seed);
   const collectibles = generateCollectibles(seed, terrain);
+  const landmarks = generateLandmarks(seed, terrain);
 
   return {
     player: {
@@ -37,6 +40,7 @@ export function createInitialGameState(seed = "hello-gamer-dev"): GameState {
       seed,
       terrain,
       collectibles,
+      landmarks,
     },
   };
 }

@@ -61,6 +61,7 @@ export function createBabylonRenderer(
 
   createBoundaryVisuals(initialState, scene);
   const collectibleMeshes = createCollectibleVisuals(initialState, scene);
+  const landmarkVisuals = createLandmarkVisuals(initialState, scene);
 
   const player = MeshBuilder.CreateBox("debug-player", { size: 0.75 }, scene);
   player.position.set(
@@ -89,6 +90,16 @@ export function createBabylonRenderer(
           ?.setEnabled(!collectible.collected);
       }
 
+      for (const landmark of gameState.world.landmarks) {
+        const landmarkVisual = landmarkVisuals.get(landmark.id);
+
+        if (landmarkVisual !== undefined) {
+          landmarkVisual.mesh.material = landmark.discovered
+            ? landmarkVisual.discoveredMaterial
+            : landmarkVisual.undiscoveredMaterial;
+        }
+      }
+
       scene.render();
     },
     resize: () => {
@@ -98,6 +109,54 @@ export function createBabylonRenderer(
       engine.dispose();
     },
   };
+}
+
+type LandmarkVisual = {
+  readonly mesh: Mesh;
+  readonly discoveredMaterial: StandardMaterial;
+  readonly undiscoveredMaterial: StandardMaterial;
+};
+
+function createLandmarkVisuals(
+  gameState: GameState,
+  scene: Scene,
+): ReadonlyMap<string, LandmarkVisual> {
+  const discoveredMaterial = new StandardMaterial(
+    "landmark-discovered-material",
+    scene,
+  );
+  const undiscoveredMaterial = new StandardMaterial(
+    "landmark-undiscovered-material",
+    scene,
+  );
+  const visuals = new Map<string, LandmarkVisual>();
+
+  discoveredMaterial.diffuseColor = new Color3(0.42, 0.72, 0.95);
+  undiscoveredMaterial.diffuseColor = new Color3(0.28, 0.31, 0.38);
+
+  for (const landmark of gameState.world.landmarks) {
+    const mesh = MeshBuilder.CreateCylinder(
+      `landmark-${landmark.id}`,
+      { height: 1.2, diameterTop: 0.35, diameterBottom: 0.55, tessellation: 6 },
+      scene,
+    );
+
+    mesh.position.set(
+      landmark.position.x,
+      landmark.position.y,
+      landmark.position.z,
+    );
+    mesh.material = landmark.discovered
+      ? discoveredMaterial
+      : undiscoveredMaterial;
+    visuals.set(landmark.id, {
+      mesh,
+      discoveredMaterial,
+      undiscoveredMaterial,
+    });
+  }
+
+  return visuals;
 }
 
 function createCollectibleVisuals(

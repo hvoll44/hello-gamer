@@ -14,6 +14,7 @@ export type SaveData = {
     readonly seed: string;
     readonly generatorId: string;
     readonly generatorVersion: number;
+    readonly discoveredLocationIds: readonly string[];
   };
   readonly player: {
     readonly position: Vector3;
@@ -43,6 +44,9 @@ export function createSaveData(
       seed: gameState.world.seed,
       generatorId: "default-terrain",
       generatorVersion: 1,
+      discoveredLocationIds: gameState.world.landmarks
+        .filter((landmark) => landmark.discovered)
+        .map((landmark) => landmark.id),
     },
     player: gameState.player,
     inventory: {
@@ -73,6 +77,7 @@ export function parseSaveData(serializedSaveData: string): SaveData | undefined 
 export function restoreGameState(saveData: SaveData): GameState {
   const initialState = createInitialGameState(saveData.world.seed);
   const collectedEntityIds = new Set(saveData.progression.collectedEntityIds);
+  const discoveredLocationIds = new Set(saveData.world.discoveredLocationIds);
 
   return {
     ...initialState,
@@ -83,6 +88,10 @@ export function restoreGameState(saveData: SaveData): GameState {
       collectibles: initialState.world.collectibles.map((collectible) => ({
         ...collectible,
         collected: collectedEntityIds.has(collectible.id),
+      })),
+      landmarks: initialState.world.landmarks.map((landmark) => ({
+        ...landmark,
+        discovered: discoveredLocationIds.has(landmark.id),
       })),
     },
   };
@@ -120,7 +129,9 @@ function isWorldSaveData(value: unknown): value is SaveData["world"] {
     isRecord(value) &&
     typeof value.seed === "string" &&
     typeof value.generatorId === "string" &&
-    typeof value.generatorVersion === "number"
+    typeof value.generatorVersion === "number" &&
+    Array.isArray(value.discoveredLocationIds) &&
+    value.discoveredLocationIds.every((id) => typeof id === "string")
   );
 }
 

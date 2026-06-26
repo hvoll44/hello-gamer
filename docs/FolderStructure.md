@@ -20,6 +20,7 @@ src/
     collectibles/
     interaction/
     inventory/
+    landmarks/
     player/
     save/
     state/
@@ -33,6 +34,7 @@ tests/
   game/
     collectibles/
     interaction/
+    landmarks/
     player/
     save/
     terrain/
@@ -48,6 +50,7 @@ tests/
 - `src/game/collectibles`: Deterministic collectible placement and collectible state shapes.
 - `src/game/interaction`: Rendering-free interaction systems that consume abstract commands.
 - `src/game/inventory`: Gameplay-owned inventory state and item count updates.
+- `src/game/landmarks`: Deterministic landmark placement and rendering-free discovery state updates.
 - `src/game/player`: Rendering-free player movement and state transition logic.
 - `src/game/save`: Versioned gameplay save data serialization, validation, and restore logic.
 - `src/game/state`: Exploration RPG state shapes and initial state factories.
