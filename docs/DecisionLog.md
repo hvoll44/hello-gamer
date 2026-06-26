@@ -29,3 +29,11 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 - Decision: Use `docs/AgentOperatingModel.md` to define default autonomy, approval boundaries, planning expectations, and commit expectations.
 - Consequences: Agents may proceed independently on scoped, low-risk work and commit coherent completed units. High-risk architectural, scope, dependency, release, remote, or destructive actions still require explicit approval.
 - Related ADR: None
+
+## 2026-06-25: Project Handoff Skill
+
+- Status: Accepted
+- Context: Long-running autonomous work needs a repeatable way to transfer context to a fresh Cursor agent without duplicating project artifacts.
+- Decision: Add `.cursor/skills/handoff/SKILL.md` as a project skill for writing handoff documents outside the workspace.
+- Consequences: Agents can preserve session state, references, open tasks, risks, and suggested skills in a consistent format for future sessions.
+- Related ADR: None

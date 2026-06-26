@@ -347,3 +347,4 @@ Start future work from the project harness:
 - `docs/CodingStandards.md` defines coding, testing, and documentation expectations.
 - `docs/AgentOperatingModel.md` defines AI autonomy, approval boundaries, and commit expectations.
 - `.cursor/rules` contains persistent Cursor guidance for planning, architecture, and documentation.
+- `.cursor/skills` contains project-specific agent workflows, including context handoff.

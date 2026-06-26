@@ -1,6 +1,6 @@
 ---
 description: Documentation expectations for project docs and ADRs
-globs: docs/**/*.md,README.md
+globs: docs/**/*.md,README.md,.cursor/skills/**/*.md
 alwaysApply: false
 ---
 
@@ -13,4 +13,5 @@ alwaysApply: false
 - Use `docs/DecisionLog.md` for lightweight decisions.
 - Use `docs/AgentOperatingModel.md` for AI autonomy, approvals, and commit expectations.
 - Use `docs/adr` for architectural decisions that are important or costly to reverse.
+- Keep project skills in `.cursor/skills` concise and focused on reusable agent workflows.
 - When implementation changes architecture, update docs in the same feature branch.
