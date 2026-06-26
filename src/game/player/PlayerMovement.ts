@@ -28,8 +28,16 @@ export function updatePlayerMovement(
   }
 
   const distance = config.speedMetersPerSecond * deltaSeconds;
-  const nextX = player.position.x + command.x * distance;
-  const nextZ = player.position.z + command.z * distance;
+  const nextX = clamp(
+    player.position.x + command.x * distance,
+    terrain.movementBounds.minX,
+    terrain.movementBounds.maxX,
+  );
+  const nextZ = clamp(
+    player.position.z + command.z * distance,
+    terrain.movementBounds.minZ,
+    terrain.movementBounds.maxZ,
+  );
   const terrainHeight = getTerrainHeightAt(terrain, nextX, nextZ);
 
   return {
@@ -43,4 +51,8 @@ export function updatePlayerMovement(
     },
     facing: Math.atan2(command.x, command.z),
   };
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
 }

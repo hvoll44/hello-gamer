@@ -9,10 +9,18 @@ export type TerrainTile = {
   readonly kind: TerrainTileKind;
 };
 
+export type TerrainBounds = {
+  readonly minX: number;
+  readonly maxX: number;
+  readonly minZ: number;
+  readonly maxZ: number;
+};
+
 export type TerrainState = {
   readonly seed: string;
   readonly size: number;
   readonly tileSize: number;
+  readonly movementBounds: TerrainBounds;
   readonly tiles: readonly TerrainTile[];
   readonly spawn: Vector3;
 };
@@ -39,6 +47,12 @@ export function generateTerrain(
 
   const radius = Math.floor(config.size / 2);
   const tiles: TerrainTile[] = [];
+  const movementBounds = {
+    minX: -radius * config.tileSize,
+    maxX: radius * config.tileSize,
+    minZ: -radius * config.tileSize,
+    maxZ: radius * config.tileSize,
+  };
 
   for (let z = -radius; z <= radius; z += 1) {
     for (let x = -radius; x <= radius; x += 1) {
@@ -63,6 +77,7 @@ export function generateTerrain(
     seed,
     size: config.size,
     tileSize: config.tileSize,
+    movementBounds,
     tiles,
     spawn: {
       x: 0,

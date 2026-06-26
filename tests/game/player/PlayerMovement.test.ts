@@ -57,4 +57,23 @@ describe("updatePlayerMovement", () => {
         0) + 0.375,
     );
   });
+
+  it("clamps movement to terrain bounds", () => {
+    const terrain = generateTerrain("boundary-seed", { size: 3, tileSize: 1 });
+    const player: PlayerState = {
+      position: terrain.spawn,
+      facing: 0,
+    };
+
+    const nextPlayer = updatePlayerMovement(
+      player,
+      { x: 1, z: 0 },
+      terrain,
+      10,
+      { speedMetersPerSecond: 2, halfHeight: 0.375 },
+    );
+
+    expect(nextPlayer.position.x).toBe(terrain.movementBounds.maxX);
+    expect(nextPlayer.position.z).toBe(0);
+  });
 });

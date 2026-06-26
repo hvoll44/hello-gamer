@@ -30,4 +30,15 @@ describe("generateTerrain", () => {
       z: 0,
     });
   });
+
+  it("derives movement bounds from the generated tile centers", () => {
+    const terrain = generateTerrain("bounds-seed", { size: 5, tileSize: 2 });
+
+    expect(terrain.movementBounds).toEqual({
+      minX: -4,
+      maxX: 4,
+      minZ: -4,
+      maxZ: 4,
+    });
+  });
 });

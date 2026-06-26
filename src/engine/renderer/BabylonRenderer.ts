@@ -58,6 +58,8 @@ export function createBabylonRenderer(
     terrainTile.material = terrainMaterials[tile.kind];
   }
 
+  createBoundaryVisuals(initialState, scene);
+
   const player = MeshBuilder.CreateBox("debug-player", { size: 0.75 }, scene);
   player.position.set(
     initialState.player.position.x,
@@ -87,6 +89,53 @@ export function createBabylonRenderer(
       engine.dispose();
     },
   };
+}
+
+function createBoundaryVisuals(gameState: GameState, scene: Scene): void {
+  const { movementBounds, tileSize } = gameState.world.terrain;
+  const minX = movementBounds.minX - tileSize / 2;
+  const maxX = movementBounds.maxX + tileSize / 2;
+  const minZ = movementBounds.minZ - tileSize / 2;
+  const maxZ = movementBounds.maxZ + tileSize / 2;
+  const width = maxX - minX;
+  const depth = maxZ - minZ;
+  const thickness = 0.08;
+  const height = 0.12;
+  const boundaryMaterial = new StandardMaterial("boundary-material", scene);
+
+  boundaryMaterial.diffuseColor = new Color3(0.38, 0.62, 0.9);
+
+  const north = MeshBuilder.CreateBox(
+    "boundary-north",
+    { width, height, depth: thickness },
+    scene,
+  );
+  north.position.set(0, height, maxZ);
+  north.material = boundaryMaterial;
+
+  const south = MeshBuilder.CreateBox(
+    "boundary-south",
+    { width, height, depth: thickness },
+    scene,
+  );
+  south.position.set(0, height, minZ);
+  south.material = boundaryMaterial;
+
+  const east = MeshBuilder.CreateBox(
+    "boundary-east",
+    { width: thickness, height, depth },
+    scene,
+  );
+  east.position.set(maxX, height, 0);
+  east.material = boundaryMaterial;
+
+  const west = MeshBuilder.CreateBox(
+    "boundary-west",
+    { width: thickness, height, depth },
+    scene,
+  );
+  west.position.set(minX, height, 0);
+  west.material = boundaryMaterial;
 }
 
 function createTerrainMaterials(

@@ -363,4 +363,4 @@ Use:
 - `npm run test` to run Vitest.
 - `npm run lint` to run ESLint.
 
-The current app shell renders deterministic generated terrain and a debug player through `src/engine/renderer`, maps keyboard input through `src/engine/input`, keeps gameplay state in `src/game/state`, updates rendering-free player movement in `src/game/player`, projects DOM overlay UI from `src/game/ui`, and includes rendering-free tests under `tests`.
+The current app shell renders deterministic generated terrain, a debug player, and terrain-edge boundary visuals through `src/engine/renderer`, maps keyboard input through `src/engine/input`, keeps gameplay state in `src/game/state`, updates rendering-free bounded player movement in `src/game/player`, projects DOM overlay UI from `src/game/ui`, and includes rendering-free tests under `tests`.
