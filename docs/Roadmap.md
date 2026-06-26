@@ -19,10 +19,11 @@
 
 ## Phase 2: Technical Foundation
 
-- Initialize TypeScript, Vite, Babylon.js, Vitest, and linting.
-- Create the engine/game/shared module structure with documented purpose.
-- Add a minimal application shell and render loop.
-- Add test setup for deterministic non-rendering logic.
+- Status: Complete.
+- Initialized TypeScript, Vite, Babylon.js, Vitest, and linting.
+- Created the engine/game/shared module structure with documented purpose.
+- Added a minimal application shell and render loop.
+- Added test setup for deterministic non-rendering logic.
 
 ## Phase 3: First Playable Core
 

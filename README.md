@@ -348,3 +348,19 @@ Start future work from the project harness:
 - `docs/AgentOperatingModel.md` defines AI autonomy, approval boundaries, and commit expectations.
 - `.cursor/rules` contains persistent Cursor guidance for planning, architecture, and documentation.
 - `.cursor/skills` contains project-specific agent workflows, including context handoff.
+
+---
+
+# CURRENT DEVELOPMENT SETUP
+
+Phase 2 has initialized the browser game foundation.
+
+Use:
+
+- `npm install` to install dependencies.
+- `npm run dev` to start the Vite development server.
+- `npm run build` to type-check and build the app.
+- `npm run test` to run Vitest.
+- `npm run lint` to run ESLint.
+
+The current app shell renders a minimal Babylon.js scene through `src/engine/renderer`, keeps gameplay state in `src/game/state`, projects DOM overlay UI from `src/game/ui`, and includes rendering-free ECS tests under `tests`.

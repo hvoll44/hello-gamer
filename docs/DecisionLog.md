@@ -14,6 +14,14 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 - Related ADR: Optional link
 ```
 
+## 2026-06-26: Phase 2 Technical Foundation
+
+- Status: Accepted
+- Context: Phase 1 architecture decisions are accepted, so the project needs a minimal browser app scaffold before gameplay features begin.
+- Decision: Initialize TypeScript, Vite, Babylon.js, Vitest, ESLint, a Babylon renderer adapter, a small game loop, initial game state, DOM HUD projection, and a rendering-free ECS test.
+- Consequences: Phase 3 can build first-playable systems on a tested foundation while keeping gameplay independent from Babylon.js and browser APIs.
+- Related ADR: `docs/adr/0001-browser-3d-rpg-stack.md`, `docs/adr/0002-ecs-approach.md`, `docs/adr/0004-ui-strategy.md`
+
 ## 2026-06-25: Browser 3D RPG Stack
 
 - Status: Accepted
