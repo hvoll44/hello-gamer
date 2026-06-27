@@ -24,3 +24,16 @@ export function addInventoryItem(
     },
   };
 }
+
+export function spendInventoryItem(
+  inventory: InventoryState,
+  itemKind: InventoryItemKind,
+  quantity: number,
+): InventoryState {
+  return {
+    items: {
+      ...inventory.items,
+      [itemKind]: Math.max(0, inventory.items[itemKind] - quantity),
+    },
+  };
+}

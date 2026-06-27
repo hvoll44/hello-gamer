@@ -2,7 +2,7 @@ import type { Vector3 } from "../../shared/Vector3";
 import type { InventoryItemKind, InventoryState } from "../inventory/Inventory";
 import { createInitialGameState, type GameState } from "../state/GameState";
 
-export const CURRENT_SAVE_SCHEMA_VERSION = 1;
+export const CURRENT_SAVE_SCHEMA_VERSION = 2;
 export const SAVE_GAME_VERSION = "0.1.0";
 
 export type SaveData = {
@@ -25,6 +25,7 @@ export type SaveData = {
   };
   readonly progression: {
     readonly collectedEntityIds: readonly string[];
+    readonly unlockedGateIds: readonly string[];
     readonly interactionFlags: Readonly<Record<string, boolean>>;
   };
 };
@@ -56,6 +57,9 @@ export function createSaveData(
       collectedEntityIds: gameState.world.collectibles
         .filter((collectible) => collectible.collected)
         .map((collectible) => collectible.id),
+      unlockedGateIds: gameState.world.gates
+        .filter((gate) => gate.unlocked)
+        .map((gate) => gate.id),
       interactionFlags: {},
     },
   };
@@ -68,7 +72,7 @@ export function serializeSaveData(saveData: SaveData): string {
 export function parseSaveData(serializedSaveData: string): SaveData | undefined {
   try {
     const parsedSaveData: unknown = JSON.parse(serializedSaveData);
-    return isSaveData(parsedSaveData) ? parsedSaveData : undefined;
+    return migrateSaveData(parsedSaveData);
   } catch {
     return undefined;
   }
@@ -77,6 +81,7 @@ export function parseSaveData(serializedSaveData: string): SaveData | undefined 
 export function restoreGameState(saveData: SaveData): GameState {
   const initialState = createInitialGameState(saveData.world.seed);
   const collectedEntityIds = new Set(saveData.progression.collectedEntityIds);
+  const unlockedGateIds = new Set(saveData.progression.unlockedGateIds);
   const discoveredLocationIds = new Set(saveData.world.discoveredLocationIds);
 
   return {
@@ -92,6 +97,10 @@ export function restoreGameState(saveData: SaveData): GameState {
       landmarks: initialState.world.landmarks.map((landmark) => ({
         ...landmark,
         discovered: discoveredLocationIds.has(landmark.id),
+      })),
+      gates: initialState.world.gates.map((gate) => ({
+        ...gate,
+        unlocked: unlockedGateIds.has(gate.id),
       })),
     },
   };
@@ -159,9 +168,62 @@ function isProgressionSaveData(
     isRecord(value) &&
     Array.isArray(value.collectedEntityIds) &&
     value.collectedEntityIds.every((id) => typeof id === "string") &&
+    Array.isArray(value.unlockedGateIds) &&
+    value.unlockedGateIds.every((id) => typeof id === "string") &&
     isRecord(value.interactionFlags) &&
     Object.values(value.interactionFlags).every((flag) => typeof flag === "boolean")
   );
+}
+
+function migrateSaveData(value: unknown): SaveData | undefined {
+  if (isSaveData(value)) {
+    return value;
+  }
+
+  if (isLegacySaveData(value)) {
+    return {
+      ...value,
+      schemaVersion: CURRENT_SAVE_SCHEMA_VERSION,
+      progression: {
+        ...value.progression,
+        unlockedGateIds: [],
+      },
+    };
+  }
+
+  return undefined;
+}
+
+type LegacySaveData = Omit<SaveData, "schemaVersion" | "progression"> & {
+  readonly schemaVersion: 1;
+  readonly progression: Omit<SaveData["progression"], "unlockedGateIds">;
+};
+
+function isLegacySaveData(value: unknown): value is LegacySaveData {
+  if (!isRecord(value)) {
+    return false;
+  }
+
+  if (
+    value.schemaVersion !== 1 ||
+    typeof value.gameVersion !== "string" ||
+    typeof value.createdAt !== "string" ||
+    typeof value.updatedAt !== "string" ||
+    !isWorldSaveData(value.world) ||
+    !isPlayerSaveData(value.player) ||
+    !isInventorySaveData(value.inventory) ||
+    !isRecord(value.progression) ||
+    !Array.isArray(value.progression.collectedEntityIds) ||
+    !value.progression.collectedEntityIds.every((id) => typeof id === "string") ||
+    !isRecord(value.progression.interactionFlags) ||
+    !Object.values(value.progression.interactionFlags).every(
+      (flag) => typeof flag === "boolean",
+    )
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 function isVector3(value: unknown): value is Vector3 {

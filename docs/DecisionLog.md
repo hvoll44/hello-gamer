@@ -14,6 +14,22 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 - Related ADR: Optional link
 ```
 
+## 2026-06-26: Phase 4 Coin Gate Progression
+
+- Status: Accepted
+- Context: Phase 4 needs a first exploration-depth slice that builds on collectibles, inventory, interaction commands, renderer projection, and gameplay-only save data.
+- Decision: Add deterministic environmental gates as rendering-free puzzle state in `src/game/puzzles`, unlock them through abstract interaction commands and inventory requirements, and persist unlocked gate IDs in save schema version 2 with a v1 migration.
+- Consequences: The first puzzle validates interaction and persistence without introducing a generic puzzle engine; future work can add movement-blocking gate collision after the gameplay contract is proven.
+- Related ADR: `docs/adr/0005-save-data-versioning.md`
+
+## 2026-06-26: Manifest-Backed Asset Catalog
+
+- Status: Accepted
+- Context: Phase 4 needs asset management conventions before renderers, audio, or gameplay start hardcoding file paths.
+- Decision: Add a small engine-owned asset catalog that validates manifest entries, resolves relative asset URLs from stable IDs, and stays independent from Babylon.js, Howler.js, and gameplay state.
+- Consequences: Future loaders can share one path convention without committing to asset formats or loading strategy yet; actual source assets and preload policies can be added when content exists.
+- Related ADR: None
+
 ## 2026-06-26: Phase 2 Technical Foundation
 
 - Status: Accepted

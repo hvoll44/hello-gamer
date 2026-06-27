@@ -10,6 +10,7 @@ import { createGameLoop } from "./engine/timing/GameLoop";
 import { applyCollectionInteraction } from "./game/interaction/CollectionInteraction";
 import { updateLandmarkDiscovery } from "./game/landmarks/Landmarks";
 import { updatePlayerMovement } from "./game/player/PlayerMovement";
+import { applyGateInteraction } from "./game/puzzles/Gates";
 import {
   createSaveData,
   parseSaveData,
@@ -51,6 +52,7 @@ const loop = createGameLoop((deltaSeconds) => {
     player,
   };
   gameState = applyCollectionInteraction(gameState, interactionCommand);
+  gameState = applyGateInteraction(gameState, interactionCommand);
   gameState = applyDiscovery(gameState);
   gameState = applyPersistenceCommand(gameState, persistenceCommand);
 

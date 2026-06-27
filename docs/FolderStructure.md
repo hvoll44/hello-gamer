@@ -11,6 +11,7 @@ docs/
   rules/
 src/
   engine/
+    assets/
     ecs/
     input/
     renderer/
@@ -22,6 +23,7 @@ src/
     inventory/
     landmarks/
     player/
+    puzzles/
     save/
     state/
     terrain/
@@ -29,6 +31,7 @@ src/
   shared/
 tests/
   engine/
+    assets/
     ecs/
     input/
   game/
@@ -36,12 +39,14 @@ tests/
     interaction/
     landmarks/
     player/
+    puzzles/
     save/
     terrain/
 ```
 
 ## Current Code Purpose
 
+- `src/engine/assets`: Manifest-backed asset catalog conventions shared by renderers, audio, and future loaders.
 - `src/engine/ecs`: Minimal in-repo ECS foundation from `docs/adr/0002-ecs-approach.md`.
 - `src/engine/input`: Browser input adapters and abstract input command mapping.
 - `src/engine/renderer`: Babylon.js rendering adapter. Gameplay should not depend on these objects.
@@ -52,6 +57,7 @@ tests/
 - `src/game/inventory`: Gameplay-owned inventory state and item count updates.
 - `src/game/landmarks`: Deterministic landmark placement and rendering-free discovery state updates.
 - `src/game/player`: Rendering-free player movement and state transition logic.
+- `src/game/puzzles`: Rendering-free puzzle and environmental gate state transitions.
 - `src/game/save`: Versioned gameplay save data serialization, validation, and restore logic.
 - `src/game/state`: Exploration RPG state shapes and initial state factories.
 - `src/game/terrain`: Deterministic generated terrain state and terrain queries.
@@ -95,4 +101,5 @@ tests/
 - Put deterministic logic tests in `tests`, close to the behavior they verify when practical.
 - Put static browser files in `public`.
 - Put source assets or asset manifests in `assets`.
+- Reference assets through stable catalog IDs instead of hardcoded paths in gameplay or renderer code.
 - Do not add empty directories just to match the intended structure.

@@ -62,6 +62,7 @@ export function createBabylonRenderer(
   createBoundaryVisuals(initialState, scene);
   const collectibleMeshes = createCollectibleVisuals(initialState, scene);
   const landmarkVisuals = createLandmarkVisuals(initialState, scene);
+  const gateVisuals = createGateVisuals(initialState, scene);
 
   const player = MeshBuilder.CreateBox("debug-player", { size: 0.75 }, scene);
   player.position.set(
@@ -100,6 +101,16 @@ export function createBabylonRenderer(
         }
       }
 
+      for (const gate of gameState.world.gates) {
+        const gateVisual = gateVisuals.get(gate.id);
+
+        if (gateVisual !== undefined) {
+          gateVisual.mesh.material = gate.unlocked
+            ? gateVisual.unlockedMaterial
+            : gateVisual.lockedMaterial;
+        }
+      }
+
       scene.render();
     },
     resize: () => {
@@ -116,6 +127,42 @@ type LandmarkVisual = {
   readonly discoveredMaterial: StandardMaterial;
   readonly undiscoveredMaterial: StandardMaterial;
 };
+
+type GateVisual = {
+  readonly mesh: Mesh;
+  readonly lockedMaterial: StandardMaterial;
+  readonly unlockedMaterial: StandardMaterial;
+};
+
+function createGateVisuals(
+  gameState: GameState,
+  scene: Scene,
+): ReadonlyMap<string, GateVisual> {
+  const lockedMaterial = new StandardMaterial("gate-locked-material", scene);
+  const unlockedMaterial = new StandardMaterial("gate-unlocked-material", scene);
+  const visuals = new Map<string, GateVisual>();
+
+  lockedMaterial.diffuseColor = new Color3(0.58, 0.36, 0.24);
+  unlockedMaterial.diffuseColor = new Color3(0.28, 0.62, 0.42);
+
+  for (const gate of gameState.world.gates) {
+    const mesh = MeshBuilder.CreateBox(
+      `gate-${gate.id}`,
+      { width: 1.2, height: 1.5, depth: 0.22 },
+      scene,
+    );
+
+    mesh.position.set(gate.position.x, gate.position.y, gate.position.z);
+    mesh.material = gate.unlocked ? unlockedMaterial : lockedMaterial;
+    visuals.set(gate.id, {
+      mesh,
+      lockedMaterial,
+      unlockedMaterial,
+    });
+  }
+
+  return visuals;
+}
 
 function createLandmarkVisuals(
   gameState: GameState,

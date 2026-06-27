@@ -27,11 +27,16 @@ export function renderHud(root: HTMLElement, gameState: GameState): void {
     gameState.world.landmarks.filter((landmark) => landmark.discovered).length,
   )}/${String(gameState.world.landmarks.length)}`;
 
+  const gates = document.createElement("p");
+  gates.textContent = `Gates unlocked: ${String(
+    gameState.world.gates.filter((gate) => gate.unlocked).length,
+  )}/${String(gameState.world.gates.length)}`;
+
   const controls = document.createElement("p");
   controls.textContent =
     "Move: WASD or arrows. Interact: E/Space. Save: K. Load: L.";
 
-  panel.append(title, seed, position, inventory, discoveries, controls);
+  panel.append(title, seed, position, inventory, discoveries, gates, controls);
   root.append(panel);
 }
 
