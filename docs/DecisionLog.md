@@ -30,6 +30,14 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 - Consequences: Future loaders can share one path convention without committing to asset formats or loading strategy yet; actual source assets and preload policies can be added when content exists.
 - Related ADR: None
 
+## 2026-06-26: Cue-Based Audio Manager
+
+- Status: Accepted
+- Context: Phase 4 needs an audio foundation for music, ambience, UI sounds, and effects without coupling gameplay to Howler.js instances or concrete asset paths.
+- Decision: Add an engine-owned audio manager that resolves cue asset IDs through the asset catalog, delegates playback to a narrow backend interface, and provides a Howler.js backend adapter at the runtime edge.
+- Consequences: Audio cues can be tested without browser audio and future game systems can request stable cue IDs; real content manifests and runtime wiring remain follow-up work.
+- Related ADR: `docs/adr/0001-browser-3d-rpg-stack.md`
+
 ## 2026-06-26: Phase 2 Technical Foundation
 
 - Status: Accepted

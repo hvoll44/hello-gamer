@@ -12,6 +12,7 @@ docs/
 src/
   engine/
     assets/
+    audio/
     ecs/
     input/
     renderer/
@@ -32,6 +33,7 @@ src/
 tests/
   engine/
     assets/
+    audio/
     ecs/
     input/
   game/
@@ -47,6 +49,7 @@ tests/
 ## Current Code Purpose
 
 - `src/engine/assets`: Manifest-backed asset catalog conventions shared by renderers, audio, and future loaders.
+- `src/engine/audio`: Cue-based audio manager abstractions and Howler.js runtime adapter.
 - `src/engine/ecs`: Minimal in-repo ECS foundation from `docs/adr/0002-ecs-approach.md`.
 - `src/engine/input`: Browser input adapters and abstract input command mapping.
 - `src/engine/renderer`: Babylon.js rendering adapter. Gameplay should not depend on these objects.
