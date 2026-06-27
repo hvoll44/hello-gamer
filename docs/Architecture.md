@@ -41,6 +41,6 @@ See `docs/adr/0001-browser-3d-rpg-stack.md`.
 
 ## Remaining Open Decisions
 
-- How terrain generation should represent chunks, persistence, and world metadata.
+- How terrain generation should represent chunks and richer world persistence beyond the current generator metadata and restore registry.
 
 Each decision should be recorded in `docs/DecisionLog.md` and promoted to an ADR when it meaningfully affects future contributors.
