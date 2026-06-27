@@ -26,8 +26,8 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 
 - Status: Accepted
 - Context: The audio manager foundation needs a gameplay-facing contract before runtime wiring or real audio content is added.
-- Decision: Derive stable gameplay audio cue IDs from rendering-free state transitions for collection, landmark discovery, and gate unlock events, then expose playback through a generic cue sink; keep concrete playback and asset loading outside gameplay.
-- Consequences: Future runtime wiring can map gameplay cue intent to the engine audio manager without coupling game rules to Howler.js, browser audio, or asset paths.
+- Decision: Derive stable gameplay audio cue IDs from rendering-free state transitions for collection, landmark discovery, and gate unlock events, then expose playback through a generic cue sink; runtime wiring maps those cues to placeholder audio assets through the engine audio manager and Howler adapter.
+- Consequences: Game rules stay decoupled from Howler.js, browser audio, and asset paths while the app can produce audible feedback; placeholder WAVs should be replaced with intentional content later.
 - Related ADR: `docs/adr/0001-browser-3d-rpg-stack.md`
 
 ## 2026-06-26: Locked Gate Kinematic Blockers

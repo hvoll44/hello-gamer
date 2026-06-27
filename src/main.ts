@@ -1,3 +1,6 @@
+import { createAssetCatalog } from "./engine/assets/AssetCatalog";
+import { createAudioManager } from "./engine/audio/AudioManager";
+import { createHowlerAudioBackend } from "./engine/audio/HowlerAudioBackend";
 import { createKeyboardInputSource } from "./engine/input/KeyboardInput";
 import {
   mapInputToInteractionCommand,
@@ -7,6 +10,11 @@ import {
 import { createBabylonRenderer } from "./engine/renderer/BabylonRenderer";
 import { createLocalStorageSaveStore } from "./engine/storage/LocalStorageSaveStore";
 import { createGameLoop } from "./engine/timing/GameLoop";
+import {
+  deriveGameplayAudioEvents,
+  GAMEPLAY_AUDIO_CUES,
+  playGameplayAudioEvents,
+} from "./game/audio/GameplayAudio";
 import { applyCollectionInteraction } from "./game/interaction/CollectionInteraction";
 import { updateLandmarkDiscovery } from "./game/landmarks/Landmarks";
 import {
@@ -40,8 +48,53 @@ const saveStore = createLocalStorageSaveStore(
   window.localStorage,
   "hello-gamer.save.v1",
 );
+const gameplayAudio = createAudioManager(
+  {
+    cues: [
+      {
+        id: GAMEPLAY_AUDIO_CUES.collectCoin,
+        assetId: "audio.gameplay.collect.coin",
+        channel: "sfx",
+        volume: 0.55,
+      },
+      {
+        id: GAMEPLAY_AUDIO_CUES.discoverLandmark,
+        assetId: "audio.gameplay.discover.landmark",
+        channel: "sfx",
+        volume: 0.5,
+      },
+      {
+        id: GAMEPLAY_AUDIO_CUES.unlockGate,
+        assetId: "audio.gameplay.unlock.gate",
+        channel: "sfx",
+        volume: 0.55,
+      },
+    ],
+  },
+  createAssetCatalog({
+    entries: [
+      {
+        id: "audio.gameplay.collect.coin",
+        kind: "audio",
+        path: "audio/coin.wav",
+      },
+      {
+        id: "audio.gameplay.discover.landmark",
+        kind: "audio",
+        path: "audio/discovery.wav",
+      },
+      {
+        id: "audio.gameplay.unlock.gate",
+        kind: "audio",
+        path: "audio/gate-unlock.wav",
+      },
+    ],
+  }),
+  createHowlerAudioBackend(),
+);
 const renderer = createBabylonRenderer(canvas, gameState);
 const loop = createGameLoop((deltaSeconds) => {
+  const previousGameState = gameState;
   const inputSnapshot = input.snapshot();
   const movementCommand = mapInputToMovementCommand(inputSnapshot);
   const interactionCommand = mapInputToInteractionCommand(inputSnapshot);
@@ -62,6 +115,10 @@ const loop = createGameLoop((deltaSeconds) => {
   gameState = applyCollectionInteraction(gameState, interactionCommand);
   gameState = applyGateInteraction(gameState, interactionCommand);
   gameState = applyDiscovery(gameState);
+  playGameplayAudioEvents(
+    deriveGameplayAudioEvents(previousGameState, gameState),
+    gameplayAudio,
+  );
   gameState = applyPersistenceCommand(gameState, persistenceCommand);
 
   renderer.render(gameState);
@@ -78,6 +135,7 @@ window.addEventListener("resize", () => {
 window.addEventListener("beforeunload", () => {
   loop.stop();
   input.dispose();
+  gameplayAudio.dispose();
   renderer.dispose();
 });
 

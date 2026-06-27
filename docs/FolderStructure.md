@@ -7,6 +7,8 @@ Create folders only when they contain code, assets, or documentation with a clea
 ```text
 docs/
   adr/
+public/
+  audio/
 .cursor/
   rules/
 src/
@@ -71,6 +73,7 @@ tests/
 - `src/game/ui`: DOM overlay UI projections driven by game/UI state.
 - `src/game/world`: Deterministic world assembly and generator metadata.
 - `src/shared`: Stable cross-layer types and helpers.
+- `public/audio`: Tiny placeholder browser-served sounds for runtime audio wiring.
 - `tests`: Rendering-free Vitest coverage for deterministic logic.
 
 ## Intended Application Structure
