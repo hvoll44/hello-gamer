@@ -18,8 +18,8 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 
 - Status: Accepted
 - Context: Phase 4 calls for pluggable world generators, but the project does not yet need multiple terrain algorithms, chunking, or a full registry.
-- Decision: Introduce a game-layer `WorldGenerator` contract with a default generator that assembles existing deterministic terrain, collectibles, landmarks, and gates; store generator metadata on world state and use the same generator seam for save restore.
-- Consequences: World assembly can be swapped in focused tests and future generator variants without changing rendering code; chunking, registry lookup, and unsupported-generator restore policy remain future decisions.
+- Decision: Introduce a game-layer `WorldGenerator` contract with a default generator registry that assembles existing deterministic terrain, collectibles, landmarks, and gates; store generator metadata on world state and use registry lookup for save restore.
+- Consequences: World assembly can be swapped in focused tests and future generator variants without changing rendering code; saves with unknown generator IDs or versions are not restored, while chunking and broader generator discovery remain future decisions.
 - Related ADR: None
 
 ## 2026-06-26: Locked Gate Kinematic Blockers

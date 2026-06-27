@@ -101,9 +101,11 @@ function applyPersistenceCommand(
 
   const saveData = parseSaveData(serializedSaveData);
 
-  return saveData === undefined
-    ? currentGameState
-    : restoreGameState(saveData);
+  if (saveData === undefined) {
+    return currentGameState;
+  }
+
+  return restoreGameState(saveData) ?? currentGameState;
 }
 
 function applyDiscovery(currentGameState: typeof gameState): typeof gameState {

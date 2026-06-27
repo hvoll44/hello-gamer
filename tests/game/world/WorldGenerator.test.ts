@@ -7,7 +7,9 @@ import { createInitialGameState } from "../../../src/game/state/GameState";
 import { generateTerrain } from "../../../src/game/terrain/Terrain";
 import {
   DEFAULT_WORLD_GENERATOR,
+  DEFAULT_WORLD_GENERATORS,
   DEFAULT_WORLD_GENERATOR_METADATA,
+  findWorldGenerator,
   type WorldGenerator,
 } from "../../../src/game/world/WorldGenerator";
 
@@ -49,5 +51,42 @@ describe("DEFAULT_WORLD_GENERATOR", () => {
     expect(gameState.world.generatorId).toBe("test-world");
     expect(gameState.world.generatorVersion).toBe(2);
     expect(gameState.player.position).toEqual(gameState.world.terrain.spawn);
+  });
+});
+
+describe("findWorldGenerator", () => {
+  it("finds the default world generator by metadata", () => {
+    expect(findWorldGenerator(DEFAULT_WORLD_GENERATOR_METADATA)).toBe(
+      DEFAULT_WORLD_GENERATOR,
+    );
+    expect(DEFAULT_WORLD_GENERATORS).toEqual([DEFAULT_WORLD_GENERATOR]);
+  });
+
+  it("finds a matching generator in a supplied registry", () => {
+    const metadata = {
+      id: "custom-registry-world",
+      version: 4,
+    };
+    const customGenerator: WorldGenerator = {
+      metadata,
+      generate(seed) {
+        return {
+          ...DEFAULT_WORLD_GENERATOR.generate(seed),
+          generatorId: metadata.id,
+          generatorVersion: metadata.version,
+        };
+      },
+    };
+
+    expect(findWorldGenerator(metadata, [customGenerator])).toBe(customGenerator);
+  });
+
+  it("does not match generators with different versions", () => {
+    expect(
+      findWorldGenerator({
+        id: DEFAULT_WORLD_GENERATOR_METADATA.id,
+        version: DEFAULT_WORLD_GENERATOR_METADATA.version + 1,
+      }),
+    ).toBeUndefined();
   });
 });

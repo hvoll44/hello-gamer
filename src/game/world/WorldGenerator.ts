@@ -14,6 +14,8 @@ export type WorldGenerator = {
   generate(seed: string): WorldState;
 };
 
+export type WorldGeneratorRegistry = readonly WorldGenerator[];
+
 export const DEFAULT_WORLD_GENERATOR_METADATA: WorldGeneratorMetadata =
   Object.freeze({
     id: "default-terrain",
@@ -36,3 +38,18 @@ export const DEFAULT_WORLD_GENERATOR: WorldGenerator = Object.freeze({
     };
   },
 });
+
+export const DEFAULT_WORLD_GENERATORS: WorldGeneratorRegistry = Object.freeze([
+  DEFAULT_WORLD_GENERATOR,
+]);
+
+export function findWorldGenerator(
+  metadata: WorldGeneratorMetadata,
+  worldGenerators: WorldGeneratorRegistry = DEFAULT_WORLD_GENERATORS,
+): WorldGenerator | undefined {
+  return worldGenerators.find(
+    (worldGenerator) =>
+      worldGenerator.metadata.id === metadata.id &&
+      worldGenerator.metadata.version === metadata.version,
+  );
+}

@@ -9,8 +9,12 @@ import {
   parseSaveData,
   restoreGameState,
   serializeSaveData,
+  type SaveData,
 } from "../../../src/game/save/SaveData";
-import { createInitialGameState } from "../../../src/game/state/GameState";
+import {
+  createInitialGameState,
+  type GameState,
+} from "../../../src/game/state/GameState";
 import {
   DEFAULT_WORLD_GENERATOR,
   DEFAULT_WORLD_GENERATOR_METADATA,
@@ -62,7 +66,7 @@ describe("SaveData", () => {
       { interact: true },
     );
 
-    const restoredState = restoreGameState(createSaveData(collectedState));
+    const restoredState = expectRestoredGameState(createSaveData(collectedState));
 
     expect(restoredState.inventory.items.ancientCoin).toBe(1);
     expect(
@@ -88,7 +92,7 @@ describe("SaveData", () => {
     };
 
     const saveData = createSaveData(discoveredState);
-    const restoredState = restoreGameState(saveData);
+    const restoredState = expectRestoredGameState(saveData);
     const restoredDiscoveredIds = restoredState.world.landmarks
       .filter((candidate) => candidate.discovered)
       .map((candidate) => candidate.id);
@@ -117,7 +121,7 @@ describe("SaveData", () => {
     );
 
     const saveData = createSaveData(unlockedState);
-    const restoredState = restoreGameState(saveData);
+    const restoredState = expectRestoredGameState(saveData);
 
     expect(saveData.progression.unlockedGateIds).toContain(gate.id);
     expect(restoredState.world.gates[0]?.unlocked).toBe(true);
@@ -158,15 +162,38 @@ describe("SaveData", () => {
       { interact: true },
     );
 
-    const restoredState = restoreGameState(
+    const restoredState = expectRestoredGameState(
       createSaveData(collectedState),
-      worldGenerator,
+      [worldGenerator],
     );
 
     expect(restoredState.world.generatorId).toBe(metadata.id);
     expect(restoredState.world.generatorVersion).toBe(metadata.version);
     expect(restoredState.world.collectibles).toHaveLength(1);
     expect(restoredState.world.collectibles[0]?.collected).toBe(true);
+  });
+
+  it("does not restore saves for unknown world generator metadata", () => {
+    const saveData = createSaveData(createInitialGameState("unknown-generator-seed"));
+
+    expect(
+      restoreGameState({
+        ...saveData,
+        world: {
+          ...saveData.world,
+          generatorId: "missing-generator",
+        },
+      }),
+    ).toBeUndefined();
+    expect(
+      restoreGameState({
+        ...saveData,
+        world: {
+          ...saveData.world,
+          generatorVersion: saveData.world.generatorVersion + 1,
+        },
+      }),
+    ).toBeUndefined();
   });
 
   it("migrates legacy save data without unlocked gate progression", () => {
@@ -188,3 +215,16 @@ describe("SaveData", () => {
     });
   });
 });
+
+function expectRestoredGameState(
+  saveData: SaveData,
+  worldGenerators?: readonly WorldGenerator[],
+): GameState {
+  const restoredState = restoreGameState(saveData, worldGenerators);
+
+  if (restoredState === undefined) {
+    throw new Error("Expected save data to restore.");
+  }
+
+  return restoredState;
+}
