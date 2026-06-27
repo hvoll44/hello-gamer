@@ -38,6 +38,7 @@ tests/
     ecs/
     input/
   game/
+    audio/
     collectibles/
     interaction/
     landmarks/
@@ -57,6 +58,7 @@ tests/
 - `src/engine/renderer`: Babylon.js rendering adapter. Gameplay should not depend on these objects.
 - `src/engine/storage`: Browser storage adapters for serialized gameplay data.
 - `src/engine/timing`: Browser render/update loop helpers.
+- `src/game/audio`: Rendering-free gameplay audio cue intent derived from state transitions.
 - `src/game/collectibles`: Deterministic collectible placement and collectible state shapes.
 - `src/game/interaction`: Rendering-free interaction systems that consume abstract commands.
 - `src/game/inventory`: Gameplay-owned inventory state and item count updates.
