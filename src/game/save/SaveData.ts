@@ -43,8 +43,8 @@ export function createSaveData(
     updatedAt: timestampIso,
     world: {
       seed: gameState.world.seed,
-      generatorId: "default-terrain",
-      generatorVersion: 1,
+      generatorId: gameState.world.generatorId,
+      generatorVersion: gameState.world.generatorVersion,
       discoveredLocationIds: gameState.world.landmarks
         .filter((landmark) => landmark.discovered)
         .map((landmark) => landmark.id),

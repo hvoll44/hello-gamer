@@ -38,7 +38,7 @@
 
 ## Phase 4: Exploration Depth
 
-- Add pluggable world generators.
+- Add pluggable world generators. Initial default world generator seam added for deterministic world assembly and save metadata.
 - Add landmarks and discovery hooks. Initial deterministic landmark discovery slice added.
 - Add simple puzzles or environmental gates. Initial deterministic coin gate slice added; locked gates now block movement through rendering-free kinematic queries.
 - Add asset management and loading conventions. Initial manifest-backed asset catalog added.

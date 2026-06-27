@@ -1,12 +1,13 @@
 import type { Vector3 } from "../../shared/Vector3";
-import {
-  generateCollectibles,
-  type CollectibleState,
-} from "../collectibles/Collectibles";
+import type { CollectibleState } from "../collectibles/Collectibles";
 import { createEmptyInventory, type InventoryState } from "../inventory/Inventory";
-import { generateLandmarks, type LandmarkState } from "../landmarks/Landmarks";
-import { generateGates, type GateState } from "../puzzles/Gates";
-import { generateTerrain, type TerrainState } from "../terrain/Terrain";
+import type { LandmarkState } from "../landmarks/Landmarks";
+import type { GateState } from "../puzzles/Gates";
+import type { TerrainState } from "../terrain/Terrain";
+import {
+  DEFAULT_WORLD_GENERATOR,
+  type WorldGenerator,
+} from "../world/WorldGenerator";
 
 export type PlayerState = {
   readonly position: Vector3;
@@ -15,6 +16,8 @@ export type PlayerState = {
 
 export type WorldState = {
   readonly seed: string;
+  readonly generatorId: string;
+  readonly generatorVersion: number;
   readonly terrain: TerrainState;
   readonly collectibles: readonly CollectibleState[];
   readonly landmarks: readonly LandmarkState[];
@@ -27,24 +30,18 @@ export type GameState = {
   readonly world: WorldState;
 };
 
-export function createInitialGameState(seed = "hello-gamer-dev"): GameState {
-  const terrain = generateTerrain(seed);
-  const collectibles = generateCollectibles(seed, terrain);
-  const landmarks = generateLandmarks(seed, terrain);
-  const gates = generateGates(seed, terrain);
+export function createInitialGameState(
+  seed = "hello-gamer-dev",
+  worldGenerator: WorldGenerator = DEFAULT_WORLD_GENERATOR,
+): GameState {
+  const world = worldGenerator.generate(seed);
 
   return {
     player: {
-      position: terrain.spawn,
+      position: world.terrain.spawn,
       facing: 0,
     },
     inventory: createEmptyInventory(),
-    world: {
-      seed,
-      terrain,
-      collectibles,
-      landmarks,
-      gates,
-    },
+    world,
   };
 }

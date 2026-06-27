@@ -29,6 +29,7 @@ src/
     state/
     terrain/
     ui/
+    world/
   shared/
 tests/
   engine/
@@ -44,6 +45,7 @@ tests/
     puzzles/
     save/
     terrain/
+    world/
 ```
 
 ## Current Code Purpose
@@ -65,6 +67,7 @@ tests/
 - `src/game/state`: Exploration RPG state shapes and initial state factories.
 - `src/game/terrain`: Deterministic generated terrain state and terrain queries.
 - `src/game/ui`: DOM overlay UI projections driven by game/UI state.
+- `src/game/world`: Deterministic world assembly and generator metadata.
 - `src/shared`: Stable cross-layer types and helpers.
 - `tests`: Rendering-free Vitest coverage for deterministic logic.
 

@@ -11,6 +11,7 @@ import {
   serializeSaveData,
 } from "../../../src/game/save/SaveData";
 import { createInitialGameState } from "../../../src/game/state/GameState";
+import { DEFAULT_WORLD_GENERATOR_METADATA } from "../../../src/game/world/WorldGenerator";
 
 describe("SaveData", () => {
   it("serializes gameplay state with the current schema version", () => {
@@ -21,6 +22,10 @@ describe("SaveData", () => {
     expect(saveData.schemaVersion).toBe(CURRENT_SAVE_SCHEMA_VERSION);
     expect(saveData.createdAt).toBe("2026-06-26T04:00:00.000Z");
     expect(saveData.world.seed).toBe("save-seed");
+    expect(saveData.world.generatorId).toBe(DEFAULT_WORLD_GENERATOR_METADATA.id);
+    expect(saveData.world.generatorVersion).toBe(
+      DEFAULT_WORLD_GENERATOR_METADATA.version,
+    );
     expect(saveData.player).toEqual(gameState.player);
     expect(saveData.progression.unlockedGateIds).toEqual([]);
   });
