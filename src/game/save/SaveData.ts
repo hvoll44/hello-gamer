@@ -1,6 +1,10 @@
 import type { Vector3 } from "../../shared/Vector3";
 import type { InventoryItemKind, InventoryState } from "../inventory/Inventory";
 import { createInitialGameState, type GameState } from "../state/GameState";
+import {
+  DEFAULT_WORLD_GENERATOR,
+  type WorldGenerator,
+} from "../world/WorldGenerator";
 
 export const CURRENT_SAVE_SCHEMA_VERSION = 2;
 export const SAVE_GAME_VERSION = "0.1.0";
@@ -78,8 +82,11 @@ export function parseSaveData(serializedSaveData: string): SaveData | undefined 
   }
 }
 
-export function restoreGameState(saveData: SaveData): GameState {
-  const initialState = createInitialGameState(saveData.world.seed);
+export function restoreGameState(
+  saveData: SaveData,
+  worldGenerator: WorldGenerator = DEFAULT_WORLD_GENERATOR,
+): GameState {
+  const initialState = createInitialGameState(saveData.world.seed, worldGenerator);
   const collectedEntityIds = new Set(saveData.progression.collectedEntityIds);
   const unlockedGateIds = new Set(saveData.progression.unlockedGateIds);
   const discoveredLocationIds = new Set(saveData.world.discoveredLocationIds);

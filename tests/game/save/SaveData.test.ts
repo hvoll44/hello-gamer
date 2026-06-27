@@ -11,7 +11,11 @@ import {
   serializeSaveData,
 } from "../../../src/game/save/SaveData";
 import { createInitialGameState } from "../../../src/game/state/GameState";
-import { DEFAULT_WORLD_GENERATOR_METADATA } from "../../../src/game/world/WorldGenerator";
+import {
+  DEFAULT_WORLD_GENERATOR,
+  DEFAULT_WORLD_GENERATOR_METADATA,
+  type WorldGenerator,
+} from "../../../src/game/world/WorldGenerator";
 
 describe("SaveData", () => {
   it("serializes gameplay state with the current schema version", () => {
@@ -118,6 +122,51 @@ describe("SaveData", () => {
     expect(saveData.progression.unlockedGateIds).toContain(gate.id);
     expect(restoredState.world.gates[0]?.unlocked).toBe(true);
     expect(restoredState.inventory.items.ancientCoin).toBe(0);
+  });
+
+  it("restores deterministic world state with an injected world generator", () => {
+    const metadata = {
+      id: "restore-test-world",
+      version: 3,
+    };
+    const worldGenerator: WorldGenerator = {
+      metadata,
+      generate(seed) {
+        const world = DEFAULT_WORLD_GENERATOR.generate(seed);
+
+        return {
+          ...world,
+          generatorId: metadata.id,
+          generatorVersion: metadata.version,
+          collectibles: world.collectibles.slice(0, 1),
+        };
+      },
+    };
+    const initialState = createInitialGameState(
+      "custom-restore-seed",
+      worldGenerator,
+    );
+    const collectible = initialState.world.collectibles[0];
+    const collectedState = applyCollectionInteraction(
+      {
+        ...initialState,
+        player: {
+          ...initialState.player,
+          position: collectible.position,
+        },
+      },
+      { interact: true },
+    );
+
+    const restoredState = restoreGameState(
+      createSaveData(collectedState),
+      worldGenerator,
+    );
+
+    expect(restoredState.world.generatorId).toBe(metadata.id);
+    expect(restoredState.world.generatorVersion).toBe(metadata.version);
+    expect(restoredState.world.collectibles).toHaveLength(1);
+    expect(restoredState.world.collectibles[0]?.collected).toBe(true);
   });
 
   it("migrates legacy save data without unlocked gate progression", () => {
