@@ -14,11 +14,18 @@ export type GateState = {
   readonly name: string;
   readonly position: Vector3;
   readonly interactionRadius: number;
+  readonly blockingRadius: number;
   readonly requirement: GateRequirement;
   readonly unlocked: boolean;
 };
 
+export type GateMovementBlocker = {
+  readonly position: Pick<Vector3, "x" | "z">;
+  readonly radius: number;
+};
+
 const GATE_HALF_HEIGHT = 0.75;
+const GATE_BLOCKING_RADIUS = 0.45;
 
 export function generateGates(
   seed: string,
@@ -36,6 +43,7 @@ export function generateGates(
         z: tile.z * terrain.tileSize,
       },
       interactionRadius: 1.4,
+      blockingRadius: GATE_BLOCKING_RADIUS,
       requirement: {
         itemKind: "ancientCoin",
         quantity: 2,
@@ -43,6 +51,17 @@ export function generateGates(
       unlocked: false,
     },
   ];
+}
+
+export function getLockedGateMovementBlockers(
+  gates: readonly GateState[],
+): readonly GateMovementBlocker[] {
+  return gates
+    .filter((gate) => !gate.unlocked)
+    .map((gate) => ({
+      position: gate.position,
+      radius: gate.blockingRadius,
+    }));
 }
 
 export function applyGateInteraction(

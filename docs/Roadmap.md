@@ -40,7 +40,7 @@
 
 - Add pluggable world generators.
 - Add landmarks and discovery hooks. Initial deterministic landmark discovery slice added.
-- Add simple puzzles or environmental gates. Initial deterministic coin gate slice added.
+- Add simple puzzles or environmental gates. Initial deterministic coin gate slice added; locked gates now block movement through rendering-free kinematic queries.
 - Add asset management and loading conventions. Initial manifest-backed asset catalog added.
 - Add basic audio manager for ambience, music, UI sounds, and effects. Initial cue manager and Howler adapter added.
 

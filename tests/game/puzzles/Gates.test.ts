@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   applyGateInteraction,
   generateGates,
+  getLockedGateMovementBlockers,
 } from "../../../src/game/puzzles/Gates";
 import { createInitialGameState } from "../../../src/game/state/GameState";
 import { generateTerrain } from "../../../src/game/terrain/Terrain";
@@ -23,6 +24,29 @@ describe("generateGates", () => {
     expect(gates).toHaveLength(1);
     expect(gates[0]?.position.x).not.toBe(terrain.spawn.x);
     expect(gates[0]?.position.z).not.toBe(terrain.spawn.z);
+  });
+});
+
+describe("getLockedGateMovementBlockers", () => {
+  it("returns blockers for locked gates only", () => {
+    const terrain = generateTerrain("gate-blocker-seed");
+    const lockedGate = generateGates("gate-blocker-seed", terrain)[0];
+
+    const blockers = getLockedGateMovementBlockers([
+      lockedGate,
+      {
+        ...lockedGate,
+        id: "unlocked-gate",
+        unlocked: true,
+      },
+    ]);
+
+    expect(blockers).toEqual([
+      {
+        position: lockedGate.position,
+        radius: lockedGate.blockingRadius,
+      },
+    ]);
   });
 });
 

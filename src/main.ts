@@ -9,8 +9,14 @@ import { createLocalStorageSaveStore } from "./engine/storage/LocalStorageSaveSt
 import { createGameLoop } from "./engine/timing/GameLoop";
 import { applyCollectionInteraction } from "./game/interaction/CollectionInteraction";
 import { updateLandmarkDiscovery } from "./game/landmarks/Landmarks";
-import { updatePlayerMovement } from "./game/player/PlayerMovement";
-import { applyGateInteraction } from "./game/puzzles/Gates";
+import {
+  DEFAULT_PLAYER_MOVEMENT_CONFIG,
+  updatePlayerMovement,
+} from "./game/player/PlayerMovement";
+import {
+  applyGateInteraction,
+  getLockedGateMovementBlockers,
+} from "./game/puzzles/Gates";
 import {
   createSaveData,
   parseSaveData,
@@ -45,6 +51,8 @@ const loop = createGameLoop((deltaSeconds) => {
     movementCommand,
     gameState.world.terrain,
     Math.min(deltaSeconds, 0.1),
+    DEFAULT_PLAYER_MOVEMENT_CONFIG,
+    getLockedGateMovementBlockers(gameState.world.gates),
   );
 
   gameState = {

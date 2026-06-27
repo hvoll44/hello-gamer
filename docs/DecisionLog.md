@@ -14,6 +14,14 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 - Related ADR: Optional link
 ```
 
+## 2026-06-26: Locked Gate Kinematic Blockers
+
+- Status: Accepted
+- Context: The Phase 4 coin gate slice needs gameplay consequences beyond interaction prompts while preserving the lightweight kinematic collision strategy.
+- Decision: Represent locked environmental gates as gameplay-owned circular movement blockers consumed by player movement; unlocked gates produce no blockers and remain passable.
+- Consequences: Gate collision stays deterministic and rendering-free without introducing a generic puzzle or physics engine; future blocker shapes or sliding behavior can be added when concrete gameplay needs appear.
+- Related ADR: `docs/adr/0003-physics-collision-strategy.md`
+
 ## 2026-06-26: Phase 4 Coin Gate Progression
 
 - Status: Accepted
