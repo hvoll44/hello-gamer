@@ -14,6 +14,14 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 - Related ADR: Optional link
 ```
 
+## 2026-06-27: Stylized Southeast Pine Forest Art Direction
+
+- Status: Accepted
+- Context: The first playable and exploration-depth phases proved the game loop, but the renderer still presented gameplay as debug blocks.
+- Decision: Establish an original stylized low-poly forest look inspired by readable isometric adventure dioramas, with visual motifs from US Southeast pine forests: pine straw, sandy clay clearings, mossy stone, simple pines, shrubs, and warm forest lighting. Build the first pass from procedural Babylon.js primitives rather than external art packs or gameplay-owned render data.
+- Consequences: The game now has a clearer visual target without adding an asset pipeline, copying another game's content, or coupling gameplay state to Babylon.js; future art work can replace procedural primitives with intentional assets behind the same renderer/runtime boundaries.
+- Related ADR: `docs/adr/0001-browser-3d-rpg-stack.md`
+
 ## 2026-06-26: Phase 4 Exploration Depth Baseline
 
 - Status: Accepted

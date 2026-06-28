@@ -42,6 +42,7 @@ tests/
     audio/
     ecs/
     input/
+    renderer/
   game/
     audio/
     collectibles/
@@ -62,7 +63,7 @@ tests/
 - `src/engine/audio`: Cue-based audio manager abstractions and Howler.js runtime adapter.
 - `src/engine/ecs`: Minimal in-repo ECS foundation from `docs/adr/0002-ecs-approach.md`.
 - `src/engine/input`: Browser input adapters and abstract input command mapping.
-- `src/engine/renderer`: Babylon.js rendering adapter. Gameplay should not depend on these objects.
+- `src/engine/renderer`: Babylon.js rendering adapter and renderer-only visual models. Gameplay should not depend on these objects.
 - `src/engine/storage`: Browser storage adapters for serialized gameplay data.
 - `src/engine/timing`: Browser render/update loop helpers.
 - `src/game/audio`: Rendering-free gameplay audio cue intent derived from state transitions.

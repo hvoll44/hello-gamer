@@ -47,6 +47,7 @@
 
 ## Phase 5: Release Readiness
 
+- Improve visual presentation and readability. Initial stylized Southeast pine forest visual pass added with procedural low-poly renderer assets.
 - Add GitHub Pages deployment.
 - Add contribution documentation.
 - Add smoke tests and regression checks.
