@@ -38,11 +38,12 @@
 
 ## Phase 4: Exploration Depth
 
-- Add pluggable world generators. Initial default world generator seam added for deterministic world assembly, save metadata, and registry-backed restore checks.
-- Add landmarks and discovery hooks. Initial deterministic landmark discovery slice added.
-- Add simple puzzles or environmental gates. Initial deterministic coin gate slice added; locked gates now block movement through rendering-free kinematic queries.
-- Add asset management and loading conventions. Initial manifest-backed asset catalog added.
-- Add basic audio manager for ambience, music, UI sounds, and effects. Initial cue manager and Howler adapter added; gameplay now derives stable cue intent for collection, discovery, and gate unlock transitions and plays placeholder runtime sounds.
+- Status: Complete.
+- Added pluggable world generators through a default game-layer generator seam, deterministic world assembly, save metadata, and registry-backed restore checks.
+- Added deterministic landmarks with rendering-free discovery hooks.
+- Added a simple environmental coin gate with rendering-free interaction, save persistence, and gameplay-owned kinematic movement blocking while locked.
+- Added manifest-backed asset catalog conventions plus runtime gameplay audio asset manifests.
+- Added a cue-based audio manager for ambience, music, UI sounds, and effects, with a Howler.js runtime adapter and placeholder gameplay sound playback for collection, discovery, and gate unlock transitions.
 
 ## Phase 5: Release Readiness
 

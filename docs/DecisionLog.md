@@ -14,6 +14,14 @@ Use this file for lightweight decision tracking. Create an ADR in `docs/adr` whe
 - Related ADR: Optional link
 ```
 
+## 2026-06-26: Phase 4 Exploration Depth Baseline
+
+- Status: Accepted
+- Context: Phase 4 needed enough exploration depth to validate deterministic world assembly, discovery, environmental gating, asset conventions, and audio playback without expanding into generic engine systems.
+- Decision: Complete the Phase 4 baseline with a default world generator seam, landmark discovery hooks, a coin-gated environmental blocker, a manifest-backed asset catalog, cue-based engine audio, gameplay-owned audio cue intent, and runtime gameplay audio manifests for placeholder sounds.
+- Consequences: The MVP now has testable exploration progression across generation, interaction, persistence, collision, assets, and audio while preserving engine/game/runtime boundaries; future work should move to Phase 5 release readiness unless new Phase 4 scope is explicitly added.
+- Related ADR: `docs/adr/0001-browser-3d-rpg-stack.md`, `docs/adr/0003-physics-collision-strategy.md`, `docs/adr/0005-save-data-versioning.md`
+
 ## 2026-06-26: Default World Generator Seam
 
 - Status: Accepted

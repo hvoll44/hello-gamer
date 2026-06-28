@@ -32,6 +32,9 @@ src/
     terrain/
     ui/
     world/
+  runtime/
+    assets/
+    audio/
   shared/
 tests/
   engine/
@@ -49,6 +52,8 @@ tests/
     save/
     terrain/
     world/
+  runtime/
+    audio/
 ```
 
 ## Current Code Purpose
@@ -72,6 +77,8 @@ tests/
 - `src/game/terrain`: Deterministic generated terrain state and terrain queries.
 - `src/game/ui`: DOM overlay UI projections driven by game/UI state.
 - `src/game/world`: Deterministic world assembly and generator metadata.
+- `src/runtime/assets`: Browser runtime asset manifests that map stable IDs to public asset paths.
+- `src/runtime/audio`: Browser runtime audio cue manifests that map gameplay cue intent to engine audio assets.
 - `src/shared`: Stable cross-layer types and helpers.
 - `public/audio`: Tiny placeholder browser-served sounds for runtime audio wiring.
 - `tests`: Rendering-free Vitest coverage for deterministic logic.
@@ -99,6 +106,9 @@ src/
     puzzles/
     save/
     ui/
+  runtime/
+    assets/
+    audio/
   shared/
 tests/
 .github/
@@ -108,6 +118,7 @@ tests/
 
 - Put reusable, game-agnostic runtime code in `src/engine`.
 - Put exploration RPG rules and content-specific systems in `src/game`.
+- Put browser-edge composition and concrete runtime manifests in `src/runtime`.
 - Put stable shared types and utilities in `src/shared`.
 - Put deterministic logic tests in `tests`, close to the behavior they verify when practical.
 - Put static browser files in `public`.

@@ -10,6 +10,7 @@ The first implementation should be small, testable, and explicit. Avoid building
 
 - `src/engine`: reusable systems such as rendering adapters, ECS, input, audio, physics integration, camera, assets, timing, and utilities.
 - `src/game`: exploration RPG features such as world generation, player behavior, terrain, interaction, inventory, puzzles, saving, and UI coordination.
+- `src/runtime`: browser application composition that maps game intent to engine adapters, static assets, and concrete runtime manifests.
 - `src/shared`: cross-layer types and helpers that are stable enough to share without pulling game details into engine code.
 - `tests`: unit and integration tests for deterministic logic, especially generation, state transitions, inventory, input mapping, and save serialization.
 - `docs`: project vision, architecture, standards, roadmap, decisions, and ADRs.
@@ -18,6 +19,7 @@ The first implementation should be small, testable, and explicit. Avoid building
 
 - Gameplay systems should not read browser input directly. They consume abstract input state or commands.
 - Gameplay systems should not depend directly on Babylon.js scene objects. Rendering maps engine/game state to visuals.
+- Gameplay systems should emit stable audio cue intent; runtime manifests and engine audio adapters own concrete asset paths and browser playback.
 - Save data should serialize game state, not transient renderer state.
 - Procedural generation should be deterministic from explicit seeds where practical.
 - UI should observe or command game state through stable interfaces, not mutate internals directly.
