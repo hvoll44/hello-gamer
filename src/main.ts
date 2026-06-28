@@ -12,7 +12,6 @@ import { createLocalStorageSaveStore } from "./engine/storage/LocalStorageSaveSt
 import { createGameLoop } from "./engine/timing/GameLoop";
 import {
   deriveGameplayAudioEvents,
-  GAMEPLAY_AUDIO_CUES,
   playGameplayAudioEvents,
 } from "./game/audio/GameplayAudio";
 import { applyCollectionInteraction } from "./game/interaction/CollectionInteraction";
@@ -33,6 +32,8 @@ import {
 } from "./game/save/SaveData";
 import { createInitialGameState } from "./game/state/GameState";
 import { renderHud } from "./game/ui/HudView";
+import { GAMEPLAY_AUDIO_ASSET_MANIFEST } from "./runtime/assets/GameplayAudioAssets";
+import { GAMEPLAY_AUDIO_CUE_MANIFEST } from "./runtime/audio/GameplayAudioManifest";
 import "./styles.css";
 
 const canvas = document.querySelector<HTMLCanvasElement>("#game-canvas");
@@ -49,47 +50,8 @@ const saveStore = createLocalStorageSaveStore(
   "hello-gamer.save.v1",
 );
 const gameplayAudio = createAudioManager(
-  {
-    cues: [
-      {
-        id: GAMEPLAY_AUDIO_CUES.collectCoin,
-        assetId: "audio.gameplay.collect.coin",
-        channel: "sfx",
-        volume: 0.55,
-      },
-      {
-        id: GAMEPLAY_AUDIO_CUES.discoverLandmark,
-        assetId: "audio.gameplay.discover.landmark",
-        channel: "sfx",
-        volume: 0.5,
-      },
-      {
-        id: GAMEPLAY_AUDIO_CUES.unlockGate,
-        assetId: "audio.gameplay.unlock.gate",
-        channel: "sfx",
-        volume: 0.55,
-      },
-    ],
-  },
-  createAssetCatalog({
-    entries: [
-      {
-        id: "audio.gameplay.collect.coin",
-        kind: "audio",
-        path: "audio/coin.wav",
-      },
-      {
-        id: "audio.gameplay.discover.landmark",
-        kind: "audio",
-        path: "audio/discovery.wav",
-      },
-      {
-        id: "audio.gameplay.unlock.gate",
-        kind: "audio",
-        path: "audio/gate-unlock.wav",
-      },
-    ],
-  }),
+  GAMEPLAY_AUDIO_CUE_MANIFEST,
+  createAssetCatalog(GAMEPLAY_AUDIO_ASSET_MANIFEST),
   createHowlerAudioBackend(),
 );
 const renderer = createBabylonRenderer(canvas, gameState);
